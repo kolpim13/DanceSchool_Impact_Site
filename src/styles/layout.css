@@ -1,0 +1,38 @@
+/* Desktop Figma frame: 1440px. Mobile Figma frame: 390px. */
+.site-header { background: var(--color-surface); }
+.desktop-nav { display: flex; gap: 32px; align-items: center; padding: 32px var(--space-page-desktop); overflow: hidden; }
+.brand { display: flex; align-items: center; gap: 10px; width: 340px; flex-shrink: 0; }
+.brand img, .mobile-logo img { display: block; object-fit: contain; }
+.brand-name { font-size: var(--font-size-heading); font-weight: var(--font-weight-bold); line-height: var(--line-height-heading); }
+.brand-caption { font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); line-height: var(--line-height-caption); white-space: nowrap; }
+.nav-link { flex-shrink: 0; color: var(--color-text-secondary); font-size: var(--font-size-label); font-weight: var(--font-weight-bold); line-height: var(--line-height-label); }
+.nav-instructors { line-height: normal; }
+.mobile-nav { display: none; }
+.site-footer { display: flex; gap: 64px; align-items: flex-start; padding: 48px var(--space-page-desktop); background: var(--color-impact-ink); color: var(--color-impact-white); }
+.footer-brand { width: 440px; flex-shrink: 0; font-size: var(--font-size-title); font-weight: var(--font-weight-bold); line-height: var(--line-height-title); }
+.footer-tagline { width: 360px; flex-shrink: 0; }
+.footer-links { width: 340px; flex-shrink: 0; }
+@media (max-width: 1279px) {
+  .desktop-nav { display: none; }
+  .mobile-nav { display: flex; align-items: center; gap: 12px; height: 80px; padding: 16px; overflow: hidden; }
+  .mobile-logo { flex: 0 0 40px; }
+  .mobile-schedule { width: 100px; }
+  .mobile-instructors { flex: 0 0 96px; padding: 6px; font-size: var(--font-size-label); font-weight: var(--font-weight-bold); line-height: normal; }
+  .mobile-account { width: 104px; }
+  .site-footer { flex-direction: column; gap: 24px; padding: 28px 16px; }
+  .footer-brand, .footer-tagline, .footer-links { width: 100%; }
+}
+/* The original 390px header clips the last 2px of Konto. Preserve at its reference width. */
+@media (max-width: 389px) {
+  .mobile-nav { gap: 8px; padding-inline: 12px; }
+  .mobile-schedule, .mobile-account { flex: 1; width: auto; padding-inline: 8px; }
+  .mobile-instructors { flex-basis: auto; }
+}
+/* Preserve the desktop instance/text bounds recorded in Figma. */
+.desktop-nav .brand-name { width: 136px; }
+.desktop-nav > .nav-link:nth-child(2) { width: 81px; }
+.desktop-nav > .nav-link:nth-child(3) { width: 41px; }
+.desktop-nav > .nav-link:nth-child(4) { width: 80px; }
+.desktop-nav > .nav-link:nth-child(5) { width: 84px; }
+.desktop-nav > .button:nth-child(6) { width: 119px; }
+.desktop-nav > .button:nth-child(7) { width: 139px; }

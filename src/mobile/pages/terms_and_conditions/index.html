@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - Regulamin</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/header.css">
+		<link rel="stylesheet" href="/src/mobile/pages/terms_and_conditions/terms_and_conditions.css">
+	</head>
+	<body>
+		<header class="site-header" data-impact-header>
+			<nav class="mobile-nav" aria-label="Menu główne">
+				<a class="mobile-logo" href="#home" data-stub="home" aria-label="Impact - strona główna">
+					<img src="/assets/impact-logo.png" alt="" width="40" height="40">
+				</a>
+				<div class="mobile-actions">
+					<button class="language-switcher" type="button" data-stub="language" aria-label="Zmień język">PL</button>
+					<button class="menu-toggle" type="button" data-menu-toggle aria-label="Otwórz menu" aria-expanded="false">
+						<span></span><span></span><span></span>
+					</button>
+				</div>
+			</nav>
+		</header>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="terms-page">
+				<div class="terms-page__inner">
+					<p class="terms-page__eyebrow">Impact / Studio Tańca</p>
+					<h1 class="terms-page__title">Regulamin</h1>
+					<p class="terms-page__intro">Niniejszy regulamin określa zasady korzystania ze studia tańca Impact, rejestracji na zajęcia oraz współpracy z zespołem instruktorów.</p>
+
+					<section class="terms-page__section">
+						<h2>1. Postanowienia ogólne</h2>
+						<p>Impact Studio Tańca prowadzi zajęcia taneczne, treningi i wydarzenia w obrębie własnej oferty. Korzystanie z usług studia oznacza akceptację regulaminu.</p>
+					</section>
+					<section class="terms-page__section">
+						<h2>2. Rejestracja i płatności</h2>
+						<ul>
+							<li>Rejestracja na zajęcia jest możliwa poprzez formularz dostępny na stronie lub bezpośrednio w studio.</li>
+							<li>Opłata za zajęcia powinna zostać uregulowana zgodnie z informacją podaną przy rezerwacji.</li>
+							<li>W przypadku rezygnacji należy zapoznać się z zasadami anulowania zgłoszenia.</li>
+						</ul>
+					</section>
+					<section class="terms-page__section">
+						<h2>3. Obowiązki uczestników</h2>
+						<p>Uczestnik zobowiązuje się do punktualności, szacunku wobec instruktorów i innych osób oraz do stosowania się do zasad bezpieczeństwa i higieny.</p>
+					</section>
+					<section class="terms-page__section">
+						<h2>4. Ochrona danych</h2>
+						<p>Podane dane osobowe są przetwarzane wyłącznie w celu obsługi rejestracji, komunikacji oraz organizacji zajęć. Szczegóły znajdują się w polityce prywatności.</p>
+					</section>
+					<section class="terms-page__section">
+						<h2>5. Zmiany i kontakt</h2>
+						<p>Studio zastrzega sobie prawo do aktualizacji regulaminu. Wszelkie pytania można kierować do działu kontaktowego dostępnego w stopce strony.</p>
+					</section>
+				</div>
+			</article>
+		</main>
+		<footer class="site-footer" data-impact-footer>
+			<p class="footer-brand">impact / studio tańca</p>
+			<p class="footer-tagline">Ruszaj się. Poznawaj. Tańcz.</p>
+			<div class="footer-links caption">
+				<p><a href="#contact" data-stub="contact">Kontakt</a>&nbsp;&nbsp;<a href="#instagram" data-stub="instagram">Instagram</a>&nbsp;&nbsp;<a href="#facebook" data-stub="facebook">Facebook</a></p>
+				<p><a href="tel:+48123456789" data-stub="phone">+48 123 456 789</a></p>
+				<p><a href="#terms" data-stub="terms">Regulamin</a>&nbsp;·&nbsp;<a href="#privacy" data-stub="privacy">Prywatność</a></p>
+			</div>
+		</footer>
+		<p id="stub-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/terms_and_conditions/terms_and_conditions.js"></script>
+	</body>
+</html>

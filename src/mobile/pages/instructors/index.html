@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - Instruktorzy</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/header.css">
+		<link rel="stylesheet" href="/src/mobile/pages/instructors/instructors.css">
+	</head>
+	<body>
+		<header class="site-header" data-impact-header>
+			<nav class="mobile-nav" aria-label="Menu główne">
+				<a class="mobile-logo" href="#home" data-stub="home" aria-label="Impact - strona główna">
+					<img src="/assets/impact-logo.png" alt="" width="40" height="40">
+				</a>
+				<div class="mobile-actions">
+					<button class="language-switcher" type="button" data-stub="language" aria-label="Zmień język">PL</button>
+					<button class="menu-toggle" type="button" data-menu-toggle aria-label="Otwórz menu" aria-expanded="false">
+						<span></span><span></span><span></span>
+					</button>
+				</div>
+			</nav>
+		</header>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="instructors-page">
+				<div class="instructors-page__inner">
+					<p class="instructors-page__eyebrow">Impact / Studio Tańca</p>
+					<h1 class="instructors-page__title">Nasi instruktorzy</h1>
+					<p class="instructors-page__intro">Poznaj osoby, które dzielą się z Tobą energią, doświadczeniem i miłością do tańca.</p>
+					<div class="instructors-grid">
+						<article class="instructor-card">
+							<div class="instructor-card__portrait" aria-hidden="true">AK</div>
+							<div class="instructor-card__body"><h2 class="instructor-card__name">Anna Kowalska</h2><p class="instructor-card__role">Hip-hop · choreografia</p></div>
+						</article>
+						<article class="instructor-card">
+							<div class="instructor-card__portrait" aria-hidden="true">MW</div>
+							<div class="instructor-card__body"><h2 class="instructor-card__name">Michał Wójcik</h2><p class="instructor-card__role">House · freestyle</p></div>
+						</article>
+						<article class="instructor-card">
+							<div class="instructor-card__portrait" aria-hidden="true">ZN</div>
+							<div class="instructor-card__body"><h2 class="instructor-card__name">Zofia Nowak</h2><p class="instructor-card__role">Jazz · contemporary</p></div>
+						</article>
+					</div>
+				</div>
+			</article>
+		</main>
+		<footer class="site-footer" data-impact-footer>
+			<p class="footer-brand">impact / studio tańca</p>
+			<p class="footer-tagline">Ruszaj się. Poznawaj. Tańcz.</p>
+			<div class="footer-links caption">
+				<p><a href="#contact" data-stub="contact">Kontakt</a>&nbsp;&nbsp;<a href="#instagram" data-stub="instagram">Instagram</a>&nbsp;&nbsp;<a href="#facebook" data-stub="facebook">Facebook</a></p>
+				<p><a href="tel:+48123456789" data-stub="phone">+48 123 456 789</a></p>
+				<p><a href="#terms" data-stub="terms">Regulamin</a>&nbsp;·&nbsp;<a href="#privacy" data-stub="privacy">Prywatność</a></p>
+			</div>
+		</footer>
+		<p id="stub-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/instructors/instructors.js"></script>
+	</body>
+</html>
