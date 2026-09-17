@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - FAQ</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/footer.css">
+		<link rel="stylesheet" href="/src/mobile/pages/faq/faq.css">
+	</head>
+	<body>
+		<header class="site-header" data-impact-header>
+			<nav class="mobile-nav" aria-label="Menu główne">
+				<a class="mobile-logo" href="#home" data-stub="home" aria-label="Impact - strona główna">
+					<img src="/assets/impact-logo.png" alt="" width="40" height="40">
+				</a>
+				<div class="mobile-actions">
+					<button class="language-switcher" type="button" data-stub="language" aria-label="Zmień język">PL</button>
+					<button class="menu-toggle" type="button" data-menu-toggle aria-label="Otwórz menu" aria-expanded="false">
+						<span></span><span></span><span></span>
+					</button>
+				</div>
+			</nav>
+		</header>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="faq-page">
+				<div class="faq-page__inner">
+					<p class="faq-page__eyebrow">Impact / Studio Tańca</p>
+					<h1 class="faq-page__title">Najczęściej zadawane pytania</h1>
+					<p class="faq-page__intro">Znajdź odpowiedzi na najważniejsze kwestie dotyczące zajęć, zapisów i organizacji czasu w studio.</p>
+
+					<div class="faq-list" aria-label="FAQ">
+						<div class="faq-item faq-item--open">
+							<button class="faq-question" type="button" data-faq-question aria-expanded="true">
+								<span>Jak zapisać się na zajęcia?</span>
+								<span class="faq-question__icon" aria-hidden="true">+</span>
+							</button>
+							<div class="faq-answer">
+								<p>Wybierz odpowiedni termin w grafiku, uzupełnij formularz i potwierdź rezerwację. Możesz też skontaktować się z nami bezpośrednio w studio.</p>
+							</div>
+						</div>
+						<div class="faq-item">
+							<button class="faq-question" type="button" data-faq-question aria-expanded="false">
+								<span>Czy mogę przyjść bez wcześniejszej rejestracji?</span>
+								<span class="faq-question__icon" aria-hidden="true">+</span>
+							</button>
+							<div class="faq-answer" hidden>
+								<p>Tak, w niektórych grupach możliwe są wolne miejsca, ale wcześniejsza rezerwacja zapewnia dostęp do zajęć i szybszy start.</p>
+							</div>
+						</div>
+						<div class="faq-item">
+							<button class="faq-question" type="button" data-faq-question aria-expanded="false">
+								<span>Czego potrzebuję na pierwsze zajęcia?</span>
+								<span class="faq-question__icon" aria-hidden="true">+</span>
+							</button>
+							<div class="faq-answer" hidden>
+								<p>Wystarczy wygodny strój, buty do tańca lub sportowe oraz woda. Jeśli dopiero zaczynasz, nie musisz mieć własnego sprzętu.</p>
+							</div>
+						</div>
+						<div class="faq-item">
+							<button class="faq-question" type="button" data-faq-question aria-expanded="false">
+								<span>Are there classes for beginners?</span>
+								<span class="faq-question__icon" aria-hidden="true">+</span>
+							</button>
+							<div class="faq-answer" hidden>
+								<p>Tak, w studio prowadzone są zajęcia dla początkujących z naciskiem na technikę, komfort ruchu i budowanie pewności siebie.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</main>
+		<footer class="site-footer" data-impact-footer>
+			<p class="footer-brand">impact / studio tańca</p>
+			<p class="footer-tagline">Ruszaj się. Poznawaj. Tańcz.</p>
+			<div class="footer-links caption">
+				<p><a href="#contact" data-stub="contact">Kontakt</a>&nbsp;&nbsp;<a href="#instagram" data-stub="instagram">Instagram</a>&nbsp;&nbsp;<a href="#facebook" data-stub="facebook">Facebook</a></p>
+				<p><a href="tel:+48123456789" data-stub="phone">+48 123 456 789</a></p>
+				<p><a href="#terms" data-stub="terms">Regulamin</a>&nbsp;·&nbsp;<a href="#privacy" data-stub="privacy">Prywatność</a></p>
+			</div>
+		</footer>
+		<p id="stub-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/faq/faq.js"></script>
+	</body>
+</html>
