@@ -1,3 +1,4 @@
+import { initFooter } from '../../partials/footer/footer.js';
 import { initHeader } from '../../partials/header/header.js';
 
 const status = document.querySelector<HTMLElement>('#stub-status');
@@ -89,4 +90,5 @@ for (const button of filterButtons) {
 
 const defaultDay = document.querySelector<HTMLButtonElement>('[data-day].is-active')?.dataset.day ?? 'mon';
 void fetchSchedule(defaultDay).then(renderSchedule);
-initHeader(document, announce);
+void initHeader(document, announce);
+void initFooter(document, announce);
