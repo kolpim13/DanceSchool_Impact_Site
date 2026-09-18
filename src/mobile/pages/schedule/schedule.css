@@ -1,0 +1,52 @@
+.schedule-page { padding: 48px 16px 56px; }
+.schedule-page__inner { width: min(100%, 358px); margin: 0 auto; }
+.schedule-page__eyebrow { margin: 0 0 12px; color: var(--color-text-secondary); font-size: var(--font-size-label); font-weight: var(--font-weight-bold); }
+.schedule-page__title { margin: 0; font-size: var(--font-size-heading-mobile); line-height: var(--line-height-heading-mobile); }
+.schedule-page__intro { margin: 16px 0 24px; color: var(--color-text-secondary); }
+
+.schedule-filter { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 20px; }
+.schedule-filter__item {
+	flex: 0 0 auto; min-width: 52px; border: 1px solid rgba(32, 33, 31, 0.12); border-radius: 999px; background: var(--color-surface);
+	padding: 10px 14px; color: var(--color-text-secondary); font-weight: var(--font-weight-medium); cursor: pointer;
+}
+.schedule-filter__item.is-active {
+	background: var(--color-impact-orange); border-color: var(--color-impact-orange); color: var(--color-impact-white);
+}
+
+.schedule-list { display: grid; gap: 16px; }
+.schedule-card {
+	padding: 18px 16px 14px; border: 2px dashed rgba(58, 158, 233, 0.8); border-radius: 0; background: rgba(255, 255, 255, 0.35);
+}
+.schedule-card__time {
+	margin: 0 0 12px; font-size: 18px; font-weight: 400; color: var(--color-impact-ink); letter-spacing: -0.02em;
+}
+.schedule-card__title {
+	margin: 0; font-size: clamp(2.1rem, 4vw, 3rem); font-weight: var(--font-weight-bold); line-height: 1.06; letter-spacing: -0.04em;
+}
+.schedule-card__details {
+	display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--color-text-secondary); font-size: 18px; line-height: 1.4;
+}
+.schedule-card__description {
+	margin: 10px 0 0; color: var(--color-text-secondary); font-size: 18px; line-height: 1.35;
+}
+.schedule-card__footer {
+	display: flex; flex-direction: column; gap: 12px; margin-top: 18px;
+}
+.schedule-card__price-wrap {
+	display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 18px; font-weight: var(--font-weight-bold);
+}
+.schedule-card__price {
+	color: var(--color-impact-ink);
+}
+.schedule-card__seats {
+	color: var(--color-text-secondary); font-weight: 400;
+}
+.schedule-card__cta {
+	width: 100%; border: 0; border-radius: 12px; padding: 20px 16px; background: var(--color-impact-orange); color: var(--color-impact-white);
+	font-size: 22px; font-weight: var(--font-weight-bold); line-height: 1.2; cursor: pointer;
+}
+
+@media (min-width: 600px) {
+	.schedule-page { padding-inline: 32px; }
+	.schedule-page__inner { width: min(100%, 720px); }
+}
