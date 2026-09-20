@@ -1,1 +1,1 @@
-{"name":"impact-registration","version":"0.1.0","private":true,"type":"module","scripts":{"build":"tsc && node scripts/build.mjs","check":"tsc --noEmit","preview":"node scripts/serve.mjs"},"devDependencies":{"typescript":"5.9.3"}}
+{"name":"impact-website","version":"0.1.0","private":true,"type":"module","scripts":{"build":"tsc && node scripts/build.mjs","check":"tsc --noEmit","preview":"node scripts/serve.mjs"},"devDependencies":{"typescript":"5.9.3"}}
