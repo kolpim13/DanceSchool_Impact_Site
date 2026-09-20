@@ -7,9 +7,9 @@ http.createServer(async (req, res) => {
   try {
     const requestUrl = new URL(req.url, 'http://localhost');
     const pathname = decodeURIComponent(requestUrl.pathname);
-    if (pathname.startsWith('/api/')) {
+    if (pathname.startsWith('/api/') || pathname.startsWith('/media/people')) {
       const backendResponse = await fetch(`http://127.0.0.1:8000${requestUrl.pathname}${requestUrl.search}`, { method: req.method, headers: req.headers });
-      res.writeHead(backendResponse.status, { 'Content-Type': backendResponse.headers.get('content-type') ?? 'application/json' });
+      res.writeHead(backendResponse.status, { 'Content-Type': backendResponse.headers.get('content-type') ?? 'application/octet-stream' });
       res.end(Buffer.from(await backendResponse.arrayBuffer()));
       return;
     }
@@ -19,4 +19,4 @@ http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': types[path.extname(file)] ?? 'application/octet-stream' });
     res.end(data);
   } catch { res.writeHead(404).end('Not found'); }
-}).listen(4173, '127.0.0.1', () => console.log('Preview: http://localhost:4173'));
+}).listen(4173, '0.0.0.0', () => console.log('Preview: http://localhost:4173'));

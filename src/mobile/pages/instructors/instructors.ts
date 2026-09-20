@@ -2,6 +2,7 @@ import { fetchPublicSchoolProfiles } from '../../../api/schoolProfiles.js';
 import { initFooter } from '../../partials/footer/footer.js';
 import { initHeader } from '../../partials/header/header.js';
 
+const API_BASE_URL = window.location.origin;
 const status = document.querySelector<HTMLElement>('#stub-status');
 function announce(message: string): void {
 	if (status) status.textContent = message;
@@ -28,6 +29,18 @@ function appendText(parent: Element, tagName: string, className: string, text: s
 	return element;
 }
 
+function getPhotoUrl(photoPath: string): string | null {
+	try {
+		return new URL(photoPath, API_BASE_URL).href;
+	} catch {
+		return null;
+	}
+}
+
+function appendPositionBadge(parent: Element, position: string): void {
+	appendText(parent, 'span', 'instructor-card__position', position);
+}
+
 function renderInstructors(profiles: Awaited<ReturnType<typeof fetchPublicSchoolProfiles>>): void {
 	const list = document.querySelector<HTMLElement>('[data-instructors-list]');
 	if (!list) return;
@@ -40,20 +53,31 @@ function renderInstructors(profiles: Awaited<ReturnType<typeof fetchPublicSchool
 		const portrait = document.createElement('div');
 		portrait.className = 'instructor-card__portrait';
 		portrait.setAttribute('aria-hidden', 'true');
-		if (profile.photo_path && /^https?:\/\//.test(profile.photo_path)) {
+		const photoUrl = profile.photo_path?.trim() ? getPhotoUrl(profile.photo_path.trim()) : null;
+		if (photoUrl) {
 			const image = document.createElement('img');
-			image.src = profile.photo_path;
+			portrait.classList.add('instructor-card__portrait--photo');
+			image.src = photoUrl;
 			image.alt = profile.display_name;
+			image.loading = 'lazy';
+			image.decoding = 'async';
+			image.addEventListener('error', () => {
+				portrait.classList.remove('instructor-card__portrait--photo');
+				portrait.textContent = getInitials(profile.display_name);
+				appendPositionBadge(portrait, profile.position);
+			}, { once: true });
 			portrait.append(image);
+			appendPositionBadge(portrait, profile.position);
 		} else {
 			portrait.textContent = getInitials(profile.display_name);
+			appendPositionBadge(portrait, profile.position);
 		}
 		card.append(portrait);
 
 		const body = document.createElement('div');
 		body.className = 'instructor-card__body';
 		appendText(body, 'h2', 'instructor-card__name', profile.display_name);
-		appendText(body, 'p', 'instructor-card__role', profile.position);
+		appendText(body, 'p', 'instructor-card__bio', profile.short_bio);
 		card.append(body);
 		list.append(card);
 	}
