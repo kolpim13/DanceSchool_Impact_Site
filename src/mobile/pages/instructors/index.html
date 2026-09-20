@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
 		<link rel="stylesheet" href="/src/mobile/partials/footer/footer.css">
 		<link rel="stylesheet" href="/src/mobile/pages/instructors/instructors.css">
+		<script type="importmap">{"imports":{"openapi-fetch":"/vendor/openapi-fetch.js"}}</script>
 	</head>
 	<body>
 		<header class="site-header" data-impact-header>
@@ -33,19 +34,8 @@
 					<p class="instructors-page__eyebrow">Impact / Studio Tańca</p>
 					<h1 class="instructors-page__title">Nasi instruktorzy</h1>
 					<p class="instructors-page__intro">Poznaj osoby, które dzielą się z Tobą energią, doświadczeniem i miłością do tańca.</p>
-					<div class="instructors-grid">
-						<article class="instructor-card">
-							<div class="instructor-card__portrait" aria-hidden="true">AK</div>
-							<div class="instructor-card__body"><h2 class="instructor-card__name">Anna Kowalska</h2><p class="instructor-card__role">Hip-hop · choreografia</p></div>
-						</article>
-						<article class="instructor-card">
-							<div class="instructor-card__portrait" aria-hidden="true">MW</div>
-							<div class="instructor-card__body"><h2 class="instructor-card__name">Michał Wójcik</h2><p class="instructor-card__role">House · freestyle</p></div>
-						</article>
-						<article class="instructor-card">
-							<div class="instructor-card__portrait" aria-hidden="true">ZN</div>
-							<div class="instructor-card__body"><h2 class="instructor-card__name">Zofia Nowak</h2><p class="instructor-card__role">Jazz · contemporary</p></div>
-						</article>
+					<div class="instructors-grid" data-instructors-list aria-live="polite">
+						<p class="instructors-state">Ładowanie instruktorów...</p>
 					</div>
 				</div>
 			</article>
