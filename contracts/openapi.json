@@ -1,6 +1,69 @@
 {
   "components": {
     "schemas": {
+      "AccountCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "login_email": {
+            "format": "email",
+            "maxLength": 320,
+            "title": "Login Email",
+            "type": "string"
+          },
+          "password": {
+            "format": "password",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password",
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "login_email",
+          "password"
+        ],
+        "title": "AccountCreate",
+        "type": "object"
+      },
+      "AccountRead": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "login_email": {
+            "title": "Login Email",
+            "type": "string"
+          },
+          "person_id": {
+            "format": "uuid",
+            "title": "Person Id",
+            "type": "string"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/RoleRead"
+            },
+            "title": "Roles",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "person_id",
+          "login_email",
+          "status",
+          "roles"
+        ],
+        "title": "AccountRead",
+        "type": "object"
+      },
       "Body_upload_photo_api_people__person_id__photo_put": {
         "properties": {
           "file": {
@@ -15,6 +78,22 @@
         "title": "Body_upload_photo_api_people__person_id__photo_put",
         "type": "object"
       },
+      "DevelopmentLoginRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "login_email": {
+            "format": "email",
+            "maxLength": 320,
+            "title": "Login Email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "login_email"
+        ],
+        "title": "DevelopmentLoginRequest",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -26,6 +105,31 @@
           }
         },
         "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "LoginRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "login_email": {
+            "format": "email",
+            "maxLength": 320,
+            "title": "Login Email",
+            "type": "string"
+          },
+          "password": {
+            "format": "password",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password",
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "login_email",
+          "password"
+        ],
+        "title": "LoginRequest",
         "type": "object"
       },
       "PersonRead": {
@@ -91,6 +195,24 @@
           "photo_path"
         ],
         "title": "PersonRead",
+        "type": "object"
+      },
+      "RoleRead": {
+        "properties": {
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ],
+        "title": "RoleRead",
         "type": "object"
       },
       "SchoolProfileRead": {
@@ -187,6 +309,205 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/auth/dev-login": {
+      "post": {
+        "operationId": "development_login_api_auth_dev_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevelopmentLoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Development Login",
+        "tags": [
+          "people"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "login_api_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Login",
+        "tags": [
+          "people"
+        ]
+      }
+    },
+    "/api/people/me": {
+      "get": {
+        "operationId": "read_own_person_api_people_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Read Own Person",
+        "tags": [
+          "people"
+        ]
+      }
+    },
+    "/api/people/{person_id}": {
+      "get": {
+        "operationId": "read_person_api_people__person_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Person",
+        "tags": [
+          "people"
+        ]
+      }
+    },
+    "/api/people/{person_id}/account": {
+      "post": {
+        "operationId": "create_account_api_people__person_id__account_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Account",
+        "tags": [
+          "people"
+        ]
+      }
+    },
     "/api/people/{person_id}/photo": {
       "put": {
         "operationId": "upload_photo_api_people__person_id__photo_put",
