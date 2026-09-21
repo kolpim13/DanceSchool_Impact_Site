@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - Mój profil</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/footer.css">
+		<link rel="stylesheet" href="/src/mobile/pages/profile/profile.css">
+	</head>
+	<body>
+		<header class="site-header" data-impact-header>
+			<nav class="mobile-nav" aria-label="Menu główne">
+				<a class="mobile-logo" href="#home" data-stub="home" aria-label="Impact - strona główna">
+					<img src="/assets/impact-logo.png" alt="" width="40" height="40">
+				</a>
+				<div class="mobile-actions">
+					<button class="language-switcher" type="button" data-stub="language" aria-label="Zmień język">PL</button>
+					<button class="menu-toggle" type="button" data-menu-toggle aria-label="Otwórz menu" aria-expanded="false">
+						<span></span><span></span><span></span>
+					</button>
+				</div>
+			</nav>
+		</header>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="profile-page">
+				<div class="profile-page__inner">
+					<h1 class="profile-page__title">Mój profil</h1>
+					<p class="profile-page__intro">Zarządzaj swoimi danymi, karnetami i kursami.</p>
+
+					<section class="profile-section">
+						<h2 class="profile-section__title">Dane podstawowe</h2>
+						<div class="profile-card" data-profile-card aria-live="polite"></div>
+					</section>
+
+					<section class="profile-section">
+						<h2 class="profile-section__title">Moje karnety</h2>
+						<div class="membership-list" data-membership-list aria-live="polite"></div>
+						<button class="button button-primary profile-section__cta" type="button" data-stub-action="buy-membership">Kup nowy karnet</button>
+					</section>
+
+					<section class="profile-section">
+						<h2 class="profile-section__title">Wybrane kursy</h2>
+						<div class="course-list" data-course-list aria-live="polite"></div>
+					</section>
+				</div>
+			</article>
+		</main>
+		<div data-footer-host></div>
+		<p id="stub-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/profile/profile.js"></script>
+	</body>
+</html>
