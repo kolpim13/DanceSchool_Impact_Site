@@ -3,13 +3,28 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 const root = path.resolve('dist');
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.png': 'image/png', '.ttf': 'font/ttf' };
+
+/** Forward all backend response headers (notably Set-Cookie, dropped by default) to the browser. */
+function buildProxyHeaders(headers) {
+  const result = { 'Content-Type': headers.get('content-type') ?? 'application/octet-stream' };
+  const cookies = headers.getSetCookie?.() ?? [];
+  if (cookies.length) result['Set-Cookie'] = cookies;
+  return result;
+}
+
 http.createServer(async (req, res) => {
   try {
     const requestUrl = new URL(req.url, 'http://localhost');
     const pathname = decodeURIComponent(requestUrl.pathname);
     if (pathname.startsWith('/api/') || pathname.startsWith('/media/people')) {
-      const backendResponse = await fetch(`http://127.0.0.1:8000${requestUrl.pathname}${requestUrl.search}`, { method: req.method, headers: req.headers });
-      res.writeHead(backendResponse.status, { 'Content-Type': backendResponse.headers.get('content-type') ?? 'application/octet-stream' });
+      const hasBody = req.method !== 'GET' && req.method !== 'HEAD';
+      const backendResponse = await fetch(`http://127.0.0.1:8000${requestUrl.pathname}${requestUrl.search}`, {
+        method: req.method,
+        headers: req.headers,
+        body: hasBody ? req : undefined,
+        duplex: hasBody ? 'half' : undefined
+      });
+      res.writeHead(backendResponse.status, buildProxyHeaders(backendResponse.headers));
       res.end(Buffer.from(await backendResponse.arrayBuffer()));
       return;
     }

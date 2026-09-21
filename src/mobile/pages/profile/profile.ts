@@ -1,5 +1,8 @@
+import { UnauthorizedError, fetchMyProfile } from '../../../api/people.js';
 import { initFooter } from '../../partials/footer/footer.js';
 import { initHeader } from '../../partials/header/header.js';
+
+const LOGIN_PATH = '/src/mobile/pages/login/index.html';
 
 const status = document.querySelector<HTMLElement>('#stub-status');
 
@@ -13,14 +16,6 @@ void initFooter(document, announce);
 function getInitials(firstName: string, lastName: string): string {
 	return `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();
 }
-
-type ProfileDetails = {
-	firstName: string;
-	lastName: string;
-	email: string;
-	phone: string;
-	memberSince: string;
-};
 
 type Membership = {
 	id: string;
@@ -39,15 +34,7 @@ type EnrolledCourse = {
 	instructor: string;
 };
 
-// TODO: no profile/membership/enrollment endpoints exist yet in contracts/openapi.json; replace with real requests once the backend exposes them.
-const placeholderProfile: ProfileDetails = {
-	firstName: 'Anna',
-	lastName: 'Kowalska',
-	email: 'anna.kowalska@email.com',
-	phone: '+48 512 345 678',
-	memberSince: 'Wrzesień 2024'
-};
-
+// TODO: no membership/enrollment endpoints exist yet in contracts/openapi.json; replace with real requests once the backend exposes them.
 const placeholderMemberships: Membership[] = [
 	{ id: 'm1', title: 'Karnet Miesięczny — Salsa & Bachata', status: 'active', validUntil: '15.10.2026', visitsUsed: 8, visitsTotal: 12 },
 	{ id: 'm2', title: 'Karnet Pojedynczy — Kizomba', status: 'active', validUntil: '22.09.2026', visitsUsed: 1, visitsTotal: 1 },
@@ -60,10 +47,6 @@ const placeholderCourses: EnrolledCourse[] = [
 	{ id: 'c3', title: 'Kizomba Intro', level: 'Początkujący', schedule: 'Pt 18:00–19:00', instructor: 'João Silva' }
 ];
 
-async function fetchProfile(): Promise<ProfileDetails> {
-	return placeholderProfile;
-}
-
 async function fetchMemberships(): Promise<Membership[]> {
 	return placeholderMemberships;
 }
@@ -72,18 +55,17 @@ async function fetchCourses(): Promise<EnrolledCourse[]> {
 	return placeholderCourses;
 }
 
-function renderProfileCard(profile: ProfileDetails): void {
+function renderProfileCard(profile: Awaited<ReturnType<typeof fetchMyProfile>>): void {
 	const card = document.querySelector<HTMLElement>('[data-profile-card]');
 	if (!card) return;
 
 	card.innerHTML = `
-		<div class="profile-avatar" aria-hidden="true">${getInitials(profile.firstName, profile.lastName)}</div>
+		<div class="profile-avatar" aria-hidden="true">${getInitials(profile.first_name, profile.last_name)}</div>
 		<dl>
-			<div class="profile-info-row"><dt>Imię</dt><dd>${profile.firstName}</dd></div>
-			<div class="profile-info-row"><dt>Nazwisko</dt><dd>${profile.lastName}</dd></div>
-			<div class="profile-info-row"><dt>Email</dt><dd>${profile.email}</dd></div>
-			<div class="profile-info-row"><dt>Telefon</dt><dd>${profile.phone}</dd></div>
-			<div class="profile-info-row"><dt>Członek od</dt><dd>${profile.memberSince}</dd></div>
+			<div class="profile-info-row"><dt>Imię</dt><dd>${profile.first_name}</dd></div>
+			<div class="profile-info-row"><dt>Nazwisko</dt><dd>${profile.last_name}</dd></div>
+			<div class="profile-info-row"><dt>Email</dt><dd>${profile.contact_email ?? 'Brak danych'}</dd></div>
+			<div class="profile-info-row"><dt>Telefon</dt><dd>${profile.phone ?? 'Brak danych'}</dd></div>
 		</dl>
 		<button class="button profile-card__edit" type="button" data-stub-action="edit-profile">Edytuj profil</button>
 	`;
@@ -139,8 +121,20 @@ document.addEventListener('click', event => {
 });
 
 async function loadProfilePage(): Promise<void> {
-	const [profile, memberships, courses] = await Promise.all([fetchProfile(), fetchMemberships(), fetchCourses()]);
+	let profile: Awaited<ReturnType<typeof fetchMyProfile>>;
+	try {
+		profile = await fetchMyProfile();
+	} catch (error) {
+		if (error instanceof UnauthorizedError) {
+			window.location.href = `${LOGIN_PATH}?redirect=${encodeURIComponent(window.location.pathname)}`;
+			return;
+		}
+		announce(error instanceof Error ? error.message : 'Nie udało się pobrać danych profilu.');
+		return;
+	}
+
 	renderProfileCard(profile);
+	const [memberships, courses] = await Promise.all([fetchMemberships(), fetchCourses()]);
 	renderMemberships(memberships);
 	renderCourses(courses);
 }

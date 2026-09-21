@@ -5,8 +5,9 @@
 .mobile-logo { flex: 0 0 40px; }
 .mobile-logo img { display: block; width: 40px; height: 40px; object-fit: contain; }
 .mobile-actions { display: flex; align-items: center; gap: 12px; }
-.language-switcher, .menu-toggle { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-input-border); background: var(--color-surface); }
+.language-switcher, .profile-button, .menu-toggle { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-input-border); background: var(--color-surface); }
 .language-switcher { width: 40px; height: 40px; border-color: #ead7c5; border-radius: 50%; background: #fff4e9; font-size: var(--font-size-label); font-weight: var(--font-weight-medium); }
+.profile-button { width: 40px; height: 40px; border-radius: 50%; color: var(--color-text); }
 .menu-toggle { flex-direction: column; gap: 4px; width: 32px; height: 32px; padding: 7px 6px; border-radius: 10px; }
 .menu-toggle span { display: block; width: 18px; height: 2px; background: var(--color-text); }
 .menu-toggle[aria-expanded="true"] span { position: absolute; }

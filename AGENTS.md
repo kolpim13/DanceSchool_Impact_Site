@@ -35,6 +35,15 @@
 - Do not invent login/session behavior. Consult backend documentation when authentication is missing or ambiguous in the contract.
 - For synchronization tasks, update affected existing features. Add new UI only when requested by product requirements; a new endpoint alone does not define a UI requirement.
 
+## Authentication And Session Flow
+- Login uses `POST /api/auth/login` with a JSON body containing `login_email` and `password`.
+- The backend verifies credentials and returns `AccountRead`; it also sets the `impact_session` cookie. The raw session token is never returned in JSON.
+- Send login and all authenticated API requests with `credentials: 'include'` so the browser stores and sends the `HttpOnly` session cookie. Do not read, copy, persist, or recreate the cookie in JavaScript, localStorage, sessionStorage, URL parameters, or application state.
+- Use `GET /api/people/me` to load the signed-in account's personal information. Do not construct this request from a user-entered or client-stored `person_id`.
+- Treat `401` responses as an unauthenticated session: clear in-memory user state and route to the login UI. Do not retry indefinitely or expose whether an email exists.
+- Treat account roles and any UI visibility derived from them as presentation hints only; the backend remains authoritative for authorization and may return `403`.
+- Preserve the browser's cookie policy. Do not add `Authorization: Bearer` headers, token refresh logic, or client-side logout token handling unless the backend contract explicitly introduces those mechanisms.
+
 ## Verification
 - Run npm run api:generate, npm run typecheck and npm run build using the repository's configured scripts.
 - If a required script is missing, implement an appropriate one after inspecting the project, or report the precise blocker.
