@@ -1,7 +1,9 @@
 # Impact website: backend API contract
 
-## Website pages design
-- design fidelity https://www.figma.com/design/HyyhOg5nX6Qb6TbsYFpIbT/Impact-%E2%80%94-Dance-Studio-Website?node-id=133-455&p=f&m=dev
+## Design fidelity
+- Source: fidelity https://www.figma.com/design/HyyhOg5nX6Qb6TbsYFpIbT/Impact-%E2%80%94-Dance-Studio-Website?node-id=133-455&p=f&m=dev
+
+Font license: `public/assets/fonts/OFL.txt` (SIL Open Font License). Logo rights remain with its owner.
 
 ## Ownership
 - This repository contains the TypeScript/HTML/CSS website.

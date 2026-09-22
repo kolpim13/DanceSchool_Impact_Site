@@ -67,7 +67,7 @@ function renderProfileCard(profile: Awaited<ReturnType<typeof fetchMyProfile>>):
 			<div class="profile-info-row"><dt>Email</dt><dd>${profile.contact_email ?? 'Brak danych'}</dd></div>
 			<div class="profile-info-row"><dt>Telefon</dt><dd>${profile.phone ?? 'Brak danych'}</dd></div>
 		</dl>
-		<button class="button profile-card__edit" type="button" data-stub-action="edit-profile">Edytuj profil</button>
+		<a class="button profile-card__edit" href="/src/mobile/pages/profile_edit/index.html">Edytuj profil</a>
 	`;
 }
 

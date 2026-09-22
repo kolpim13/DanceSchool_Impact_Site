@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - Edytuj profil</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/footer.css">
+		<link rel="stylesheet" href="/src/mobile/pages/profile_edit/profile_edit.css">
+		<script type="importmap">{"imports":{"openapi-fetch":"/vendor/openapi-fetch.js"}}</script>
+	</head>
+	<body>
+		<div data-header-host></div>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="profile-edit-page">
+				<div class="profile-edit-page__inner">
+					<h1 class="profile-edit-page__title">Mój profil</h1>
+					<p class="profile-edit-page__intro">Zarządzaj swoimi danymi, karnetami i hasłem.</p>
+
+					<form class="profile-edit-form" data-profile-edit-form>
+						<section class="profile-edit-section profile-edit-section--avatar" aria-labelledby="profile-photo-title">
+							<h2 id="profile-photo-title" class="profile-edit-section__title">Zdjęcie profilowe</h2>
+							<div class="profile-photo-row">
+								<div class="profile-avatar" data-profile-avatar aria-hidden="true">AK</div>
+								<button class="profile-photo__button" type="button" data-stub-action="change-photo">Zmień zdjęcie</button>
+							</div>
+							<p class="profile-photo__hint">JPG lub PNG, maksymalnie 8 MB.</p>
+						</section>
+
+						<section class="profile-edit-section" aria-labelledby="profile-personal-title">
+							<h2 id="profile-personal-title" class="profile-edit-section__title">Dane osobowe</h2>
+							<div class="profile-edit-fields">
+								<div class="field">
+									<label for="profile-first-name">Imię</label>
+									<input id="profile-first-name" name="first_name" type="text" autocomplete="given-name" required>
+								</div>
+								<div class="field">
+									<label for="profile-last-name">Nazwisko</label>
+									<input id="profile-last-name" name="last_name" type="text" autocomplete="family-name" required>
+								</div>
+							</div>
+						</section>
+
+						<section class="profile-edit-section" aria-labelledby="profile-contact-title">
+							<h2 id="profile-contact-title" class="profile-edit-section__title">Dane kontaktowe</h2>
+							<p class="profile-edit-section__copy">Użyj tych danych do kontaktu z Tobą.</p>
+							<div class="profile-edit-fields">
+								<div class="field">
+									<label for="profile-email">Adres e-mail</label>
+									<input id="profile-email" name="contact_email" type="email" autocomplete="email" readonly>
+									<small>Na ten adres wysyłamy potwierdzenia rezerwacji.</small>
+								</div>
+								<div class="field profile-phone-field">
+									<label for="profile-phone">Numer telefonu</label>
+									<div class="profile-phone-field__input">
+										<span aria-hidden="true">PL +48</span>
+										<input id="profile-phone" name="phone" type="tel" autocomplete="tel">
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<section class="profile-edit-section" aria-labelledby="profile-security-title">
+							<h2 id="profile-security-title" class="profile-edit-section__title">Hasło i bezpieczeństwo</h2>
+							<button class="password-card" type="button" data-stub-action="change-password">
+								<span class="password-card__icon" aria-hidden="true">&#128274;</span>
+								<span><strong>Zmień hasło</strong><small>Ostatnia zmiana: 5 miesięcy temu</small></span>
+								<span class="password-card__chevron" aria-hidden="true">›</span>
+							</button>
+							<p class="profile-security__hint">Dla bezpieczeństwa używaj co najmniej znaków i symboli.</p>
+						</section>
+
+						<div class="profile-edit-actions">
+							<button class="button button-primary" type="submit">Zapisz zmiany</button>
+							<a class="button profile-edit-actions__back" href="/src/mobile/pages/profile/index.html">Back to Profile</a>
+						</div>
+						<p class="profile-edit-form__status" data-profile-edit-status role="status" aria-live="polite"></p>
+					</form>
+				</div>
+			</article>
+		</main>
+		<div data-footer-host></div>
+		<p id="stub-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/profile_edit/profile_edit.js"></script>
+	</body>
+</html>
