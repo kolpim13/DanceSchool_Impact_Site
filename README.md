@@ -10,6 +10,8 @@ Node.js 22+ is recommended.
 npm ci
 npm run build
 npm run preview
+npm.cmd run build
+npm.cmd run preview
 ```
 
 Open http://localhost:4173. The included `dist/` is already compiled and can be served by any static HTTP server. Use HTTP rather than opening index.html through file:// so browser ES modules work. No backend or environment variables are required. All images and fonts are local.
