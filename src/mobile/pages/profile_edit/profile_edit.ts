@@ -1,4 +1,5 @@
 import { UnauthorizedError, fetchMyProfile } from '../../../api/people.js';
+import { onRemoteLogout } from '../../../shared/authChannel.js';
 import { initFooter } from '../../partials/footer/footer.js';
 import { initHeader } from '../../partials/header/header.js';
 
@@ -14,6 +15,17 @@ function announce(message: string): void {
 
 void initHeader(document, announce);
 void initFooter(document, announce);
+
+let profileRequest: AbortController | null = null;
+
+onRemoteLogout(() => {
+	profileRequest?.abort();
+	window.location.href = LOGIN_PATH;
+});
+
+window.addEventListener('pageshow', event => {
+	if ((event as PageTransitionEvent).persisted) void loadProfileEditPage();
+});
 
 function getInitials(firstName: string, lastName: string): string {
 	return `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();
@@ -46,10 +58,15 @@ document.addEventListener('click', event => {
 });
 
 async function loadProfileEditPage(): Promise<void> {
+	profileRequest?.abort();
+	const controller = new AbortController();
+	profileRequest = controller;
+
 	try {
-		const profile = await fetchMyProfile();
+		const profile = await fetchMyProfile(controller.signal);
 		setProfileFields(profile);
 	} catch (error) {
+		if (error instanceof DOMException && error.name === 'AbortError') return;
 		if (error instanceof UnauthorizedError) {
 			window.location.href = `${LOGIN_PATH}?redirect=${encodeURIComponent(window.location.pathname)}`;
 			return;

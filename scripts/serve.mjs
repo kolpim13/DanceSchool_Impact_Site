@@ -76,17 +76,53 @@ function isBackendPath(pathname) {
   );
 }
 
+const BACKEND_HOST = '127.0.0.1';
+const BACKEND_PORT = 8000;
+
+// Headers that must not be forwarded as-is to the upstream connection (either meaningless
+// cross-connection, or wrong for the backend's own host/port).
+const HOP_BY_HOP_REQUEST_HEADERS = new Set([
+  'host',
+  'connection',
+  'keep-alive',
+  'proxy-authenticate',
+  'proxy-authorization',
+  'te',
+  'trailer',
+  'transfer-encoding',
+  'upgrade',
+]);
+
+/**
+ * Forward every request header verbatim (Cookie, any CSRF header the client sends, etc.),
+ * except hop-by-hop ones, and point Host at the backend so its own origin/host checks see
+ * a consistent value instead of the frontend's.
+ */
+function buildUpstreamRequestHeaders(reqHeaders) {
+  const headers = {};
+  for (const [name, value] of Object.entries(reqHeaders)) {
+    if (HOP_BY_HOP_REQUEST_HEADERS.has(name.toLowerCase())) continue;
+    headers[name] = value;
+  }
+  headers.host = `${BACKEND_HOST}:${BACKEND_PORT}`;
+  return headers;
+}
+
 function proxyToBackend(req, res, url) {
   const upstream = http.request(
     {
-      hostname: '127.0.0.1',
-      port: 8000,
+      hostname: BACKEND_HOST,
+      port: BACKEND_PORT,
       path: url.pathname + url.search,
       method: req.method,
-      headers: req.headers,
+      headers: buildUpstreamRequestHeaders(req.headers),
     },
     (backendResponse) => {
-      // Preserves Set-Cookie arrays, Location, and other response headers.
+      // Node parses "set-cookie" into an array and, per Node's http docs, an array header
+      // value is emitted as separate header lines (never comma-joined), so every Set-Cookie
+      // -- including cookie-deletion ones (Max-Age=0 / past Expires) -- reaches the browser
+      // intact. Passing backendResponse.headers straight through also preserves Cache-Control,
+      // Content-Type, and the 204 status/empty body as the backend sent them.
       res.writeHead(
         backendResponse.statusCode ?? 502,
         backendResponse.headers,

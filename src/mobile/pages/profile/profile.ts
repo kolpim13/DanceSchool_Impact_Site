@@ -1,4 +1,6 @@
+import { logout } from '../../../api/auth.js';
 import { UnauthorizedError, fetchMyProfile } from '../../../api/people.js';
+import { broadcastLogout, onRemoteLogout } from '../../../shared/authChannel.js';
 import { initFooter } from '../../partials/footer/footer.js';
 import { initHeader } from '../../partials/header/header.js';
 
@@ -12,6 +14,62 @@ function announce(message: string): void {
 
 void initHeader(document, announce);
 void initFooter(document, announce);
+
+// Bumped on logout so in-flight profile responses from the old session are ignored, not rendered.
+let sessionEpoch = 0;
+let profileRequest: AbortController | null = null;
+let logoutPending = false;
+
+function clearPrivateProfileState(): void {
+	const card = document.querySelector<HTMLElement>('[data-profile-card]');
+	if (card) card.innerHTML = '';
+	const memberships = document.querySelector<HTMLElement>('[data-membership-list]');
+	if (memberships) memberships.innerHTML = '';
+	const courses = document.querySelector<HTMLElement>('[data-course-list]');
+	if (courses) courses.innerHTML = '';
+}
+
+function goToLogin(): void {
+	window.location.href = LOGIN_PATH;
+}
+
+async function handleLogout(): Promise<void> {
+	if (logoutPending) return;
+	logoutPending = true;
+	sessionEpoch += 1;
+	profileRequest?.abort();
+
+	const button = document.querySelector<HTMLButtonElement>('[data-logout-button]');
+	if (button) { button.disabled = true; button.textContent = 'Wylogowywanie…'; }
+
+	try {
+		await logout();
+		clearPrivateProfileState();
+		broadcastLogout();
+		goToLogin();
+	} catch (error) {
+		logoutPending = false;
+		if (button) { button.disabled = false; button.textContent = 'Wyloguj'; }
+		announce(error instanceof Error ? error.message : 'Nie udało się wylogować. Spróbuj ponownie.');
+	}
+}
+
+document.addEventListener('click', event => {
+	if ((event.target as HTMLElement).closest('[data-logout-button]')) void handleLogout();
+});
+
+// Another tab logged out: this tab's session cookie is gone too, so stop showing private data.
+onRemoteLogout(() => {
+	sessionEpoch += 1;
+	profileRequest?.abort();
+	clearPrivateProfileState();
+	goToLogin();
+});
+
+// Back/forward cache can restore this page with stale private data; revalidate the session.
+window.addEventListener('pageshow', event => {
+	if ((event as PageTransitionEvent).persisted) void loadProfilePage();
+});
 
 function getInitials(firstName: string, lastName: string): string {
 	return `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();
@@ -55,6 +113,7 @@ async function fetchCourses(): Promise<EnrolledCourse[]> {
 	return placeholderCourses;
 }
 
+// ToDo: Make most part of static
 function renderProfileCard(profile: Awaited<ReturnType<typeof fetchMyProfile>>): void {
 	const card = document.querySelector<HTMLElement>('[data-profile-card]');
 	if (!card) return;
@@ -67,10 +126,13 @@ function renderProfileCard(profile: Awaited<ReturnType<typeof fetchMyProfile>>):
 			<div class="profile-info-row"><dt>Email</dt><dd>${profile.contact_email ?? 'Brak danych'}</dd></div>
 			<div class="profile-info-row"><dt>Telefon</dt><dd>${profile.phone ?? 'Brak danych'}</dd></div>
 		</dl>
+
 		<a class="button profile-card__edit" href="/src/mobile/pages/profile_edit/index.html">Edytuj profil</a>
+		<button class="button profile-card__logout" type="button" data-logout-button>Wyloguj</button>
 	`;
 }
 
+// ToDo: Make most part of static
 function renderMemberships(memberships: Membership[]): void {
 	const list = document.querySelector<HTMLElement>('[data-membership-list]');
 	if (!list) return;
@@ -95,6 +157,7 @@ function renderMemberships(memberships: Membership[]): void {
 	`).join('');
 }
 
+// ToDo: Make most part of static
 function renderCourses(courses: EnrolledCourse[]): void {
 	const list = document.querySelector<HTMLElement>('[data-course-list]');
 	if (!list) return;
@@ -121,10 +184,17 @@ document.addEventListener('click', event => {
 });
 
 async function loadProfilePage(): Promise<void> {
+	const epoch = sessionEpoch;
+	profileRequest?.abort();
+	const controller = new AbortController();
+	profileRequest = controller;
+
 	let profile: Awaited<ReturnType<typeof fetchMyProfile>>;
 	try {
-		profile = await fetchMyProfile();
+		profile = await fetchMyProfile(controller.signal);
 	} catch (error) {
+		if (error instanceof DOMException && error.name === 'AbortError') return;
+		if (epoch !== sessionEpoch) return;
 		if (error instanceof UnauthorizedError) {
 			window.location.href = `${LOGIN_PATH}?redirect=${encodeURIComponent(window.location.pathname)}`;
 			return;
@@ -132,9 +202,11 @@ async function loadProfilePage(): Promise<void> {
 		announce(error instanceof Error ? error.message : 'Nie udało się pobrać danych profilu.');
 		return;
 	}
+	if (epoch !== sessionEpoch) return;
 
 	renderProfileCard(profile);
 	const [memberships, courses] = await Promise.all([fetchMemberships(), fetchCourses()]);
+	if (epoch !== sessionEpoch) return;
 	renderMemberships(memberships);
 	renderCourses(courses);
 }
