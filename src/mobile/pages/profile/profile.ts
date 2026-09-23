@@ -21,12 +21,12 @@ let profileRequest: AbortController | null = null;
 let logoutPending = false;
 
 function clearPrivateProfileState(): void {
-	const card = document.querySelector<HTMLElement>('[data-profile-card]');
-	if (card) card.innerHTML = '';
-	const memberships = document.querySelector<HTMLElement>('[data-membership-list]');
-	if (memberships) memberships.innerHTML = '';
-	const courses = document.querySelector<HTMLElement>('[data-course-list]');
-	if (courses) courses.innerHTML = '';
+	const avatar = document.querySelector<HTMLElement>('[data-profile-avatar]');
+	if (avatar) avatar.textContent = '';
+	for (const field of ['first-name', 'last-name', 'email', 'phone']) {
+		const cell = document.querySelector<HTMLElement>(`[data-profile-${field}]`);
+		if (cell) cell.textContent = '';
+	}
 }
 
 function goToLogin(): void {
@@ -75,106 +75,19 @@ function getInitials(firstName: string, lastName: string): string {
 	return `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();
 }
 
-type Membership = {
-	id: string;
-	title: string;
-	status: 'active' | 'expired';
-	validUntil: string;
-	visitsUsed: number;
-	visitsTotal: number;
-};
+// Memberships and courses are static placeholder markup in index.html (no backend endpoint yet, see AGENTS.md).
+function setProfileFields(profile: Awaited<ReturnType<typeof fetchMyProfile>>): void {
+	const avatar = document.querySelector<HTMLElement>('[data-profile-avatar]');
+	const firstName = document.querySelector<HTMLElement>('[data-profile-first-name]');
+	const lastName = document.querySelector<HTMLElement>('[data-profile-last-name]');
+	const email = document.querySelector<HTMLElement>('[data-profile-email]');
+	const phone = document.querySelector<HTMLElement>('[data-profile-phone]');
 
-type EnrolledCourse = {
-	id: string;
-	title: string;
-	level: string;
-	schedule: string;
-	instructor: string;
-};
-
-// TODO: no membership/enrollment endpoints exist yet in contracts/openapi.json; replace with real requests once the backend exposes them.
-const placeholderMemberships: Membership[] = [
-	{ id: 'm1', title: 'Karnet Miesięczny — Salsa & Bachata', status: 'active', validUntil: '15.10.2026', visitsUsed: 8, visitsTotal: 12 },
-	{ id: 'm2', title: 'Karnet Pojedynczy — Kizomba', status: 'active', validUntil: '22.09.2026', visitsUsed: 1, visitsTotal: 1 },
-	{ id: 'm3', title: 'Karnet Miesięczny — Salsa Open', status: 'expired', validUntil: '01.08.2026', visitsUsed: 0, visitsTotal: 8 }
-];
-
-const placeholderCourses: EnrolledCourse[] = [
-	{ id: 'c1', title: 'Salsa Początkujący', level: 'Początkujący', schedule: 'Pon & Śr 19:00–20:00', instructor: 'Carlos Martinez' },
-	{ id: 'c2', title: 'Bachata Średniozaawansowany', level: 'Średniozaawansowany', schedule: 'Wt & Czw 20:00–21:00', instructor: 'Maria Santos' },
-	{ id: 'c3', title: 'Kizomba Intro', level: 'Początkujący', schedule: 'Pt 18:00–19:00', instructor: 'João Silva' }
-];
-
-async function fetchMemberships(): Promise<Membership[]> {
-	return placeholderMemberships;
-}
-
-async function fetchCourses(): Promise<EnrolledCourse[]> {
-	return placeholderCourses;
-}
-
-// ToDo: Make most part of static
-function renderProfileCard(profile: Awaited<ReturnType<typeof fetchMyProfile>>): void {
-	const card = document.querySelector<HTMLElement>('[data-profile-card]');
-	if (!card) return;
-
-	card.innerHTML = `
-		<div class="profile-avatar" aria-hidden="true">${getInitials(profile.first_name, profile.last_name)}</div>
-		<dl>
-			<div class="profile-info-row"><dt>Imię</dt><dd>${profile.first_name}</dd></div>
-			<div class="profile-info-row"><dt>Nazwisko</dt><dd>${profile.last_name}</dd></div>
-			<div class="profile-info-row"><dt>Email</dt><dd>${profile.contact_email ?? 'Brak danych'}</dd></div>
-			<div class="profile-info-row"><dt>Telefon</dt><dd>${profile.phone ?? 'Brak danych'}</dd></div>
-		</dl>
-
-		<a class="button profile-card__edit" href="/src/mobile/pages/profile_edit/index.html">Edytuj profil</a>
-		<button class="button profile-card__logout" type="button" data-logout-button>Wyloguj</button>
-	`;
-}
-
-// ToDo: Make most part of static
-function renderMemberships(memberships: Membership[]): void {
-	const list = document.querySelector<HTMLElement>('[data-membership-list]');
-	if (!list) return;
-
-	list.innerHTML = memberships.map(membership => `
-		<article class="membership-card">
-			<div class="membership-card__header">
-				<h3 class="membership-card__title">${membership.title}</h3>
-				<span class="badge ${membership.status === 'active' ? 'badge--active' : 'badge--expired'}">${membership.status === 'active' ? 'Aktywny' : 'Wygasły'}</span>
-			</div>
-			<dl class="membership-card__meta">
-				<div>
-					<dt>Ważność</dt>
-					<dd>${membership.validUntil}</dd>
-				</div>
-				<div>
-					<dt>Pozostało wejść</dt>
-					<dd class="${membership.status === 'expired' ? 'is-muted' : ''}">${membership.visitsUsed}/${membership.visitsTotal}</dd>
-				</div>
-			</dl>
-		</article>
-	`).join('');
-}
-
-// ToDo: Make most part of static
-function renderCourses(courses: EnrolledCourse[]): void {
-	const list = document.querySelector<HTMLElement>('[data-course-list]');
-	if (!list) return;
-
-	list.innerHTML = courses.map(course => `
-		<article class="course-card">
-			<div class="course-card__header">
-				<h3 class="course-card__title">${course.title}</h3>
-				<span class="badge badge--level">${course.level}</span>
-			</div>
-			<p class="course-card__schedule">${course.schedule}</p>
-			<div class="course-card__footer">
-				<p class="course-card__instructor">Prowadzący: <strong>${course.instructor}</strong></p>
-				<button class="course-card__cancel" type="button" data-stub-action="cancel-course" data-course-id="${course.id}">Zrezygnuj</button>
-			</div>
-		</article>
-	`).join('');
+	if (avatar) avatar.textContent = getInitials(profile.first_name, profile.last_name);
+	if (firstName) firstName.textContent = profile.first_name;
+	if (lastName) lastName.textContent = profile.last_name;
+	if (email) email.textContent = profile.contact_email ?? 'Brak danych';
+	if (phone) phone.textContent = profile.phone ?? 'Brak danych';
 }
 
 document.addEventListener('click', event => {
@@ -204,11 +117,7 @@ async function loadProfilePage(): Promise<void> {
 	}
 	if (epoch !== sessionEpoch) return;
 
-	renderProfileCard(profile);
-	const [memberships, courses] = await Promise.all([fetchMemberships(), fetchCourses()]);
-	if (epoch !== sessionEpoch) return;
-	renderMemberships(memberships);
-	renderCourses(courses);
+	setProfileFields(profile);
 }
 
 void loadProfilePage();

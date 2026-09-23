@@ -24,18 +24,111 @@
 
 					<section class="profile-section">
 						<h2 class="profile-section__title">Dane podstawowe</h2>
-						<div class="profile-card" data-profile-card aria-live="polite"></div>
+						<div class="profile-card">
+							<div class="profile-avatar" data-profile-avatar aria-hidden="true"></div>
+							<dl>
+								<div class="profile-info-row"><dt>Imię</dt><dd data-profile-first-name></dd></div>
+								<div class="profile-info-row"><dt>Nazwisko</dt><dd data-profile-last-name></dd></div>
+								<div class="profile-info-row"><dt>Email</dt><dd data-profile-email></dd></div>
+								<div class="profile-info-row"><dt>Telefon</dt><dd data-profile-phone></dd></div>
+							</dl>
+							<a class="button profile-card__edit" href="/src/mobile/pages/profile_edit/index.html">Edytuj profil</a>
+							<button class="button profile-card__logout" type="button" data-logout-button>Wyloguj</button>
+						</div>
 					</section>
 
 					<section class="profile-section">
 						<h2 class="profile-section__title">Moje karnety</h2>
-						<div class="membership-list" data-membership-list aria-live="polite"></div>
+						<div class="membership-list">
+							<article class="membership-card">
+								<div class="membership-card__header">
+									<h3 class="membership-card__title">Karnet Miesięczny — Salsa &amp; Bachata</h3>
+									<span class="badge badge--active">Aktywny</span>
+								</div>
+								<dl class="membership-card__meta">
+									<div>
+										<dt>Ważność</dt>
+										<dd>15.10.2026</dd>
+									</div>
+									<div>
+										<dt>Pozostało wejść</dt>
+										<dd>8/12</dd>
+									</div>
+								</dl>
+							</article>
+							<article class="membership-card">
+								<div class="membership-card__header">
+									<h3 class="membership-card__title">Karnet Pojedynczy — Kizomba</h3>
+									<span class="badge badge--active">Aktywny</span>
+								</div>
+								<dl class="membership-card__meta">
+									<div>
+										<dt>Ważność</dt>
+										<dd>22.09.2026</dd>
+									</div>
+									<div>
+										<dt>Pozostało wejść</dt>
+										<dd>1/1</dd>
+									</div>
+								</dl>
+							</article>
+							<article class="membership-card">
+								<div class="membership-card__header">
+									<h3 class="membership-card__title">Karnet Miesięczny — Salsa Open</h3>
+									<span class="badge badge--expired">Wygasły</span>
+								</div>
+								<dl class="membership-card__meta">
+									<div>
+										<dt>Ważność</dt>
+										<dd>01.08.2026</dd>
+									</div>
+									<div>
+										<dt>Pozostało wejść</dt>
+										<dd class="is-muted">0/8</dd>
+									</div>
+								</dl>
+							</article>
+						</div>
 						<button class="button button-primary profile-section__cta" type="button" data-stub-action="buy-membership">Kup nowy karnet</button>
 					</section>
 
 					<section class="profile-section">
 						<h2 class="profile-section__title">Wybrane kursy</h2>
-						<div class="course-list" data-course-list aria-live="polite"></div>
+						<div class="course-list">
+							<article class="course-card">
+								<div class="course-card__header">
+									<h3 class="course-card__title">Salsa Początkujący</h3>
+									<span class="badge badge--level">Początkujący</span>
+								</div>
+								<p class="course-card__schedule">Pon &amp; Śr 19:00–20:00</p>
+								<div class="course-card__footer">
+									<p class="course-card__instructor">Prowadzący: <strong>Carlos Martinez</strong></p>
+									<button class="course-card__cancel" type="button" data-stub-action="cancel-course" data-course-id="c1">Zrezygnuj</button>
+								</div>
+							</article>
+							<article class="course-card">
+								<div class="course-card__header">
+									<h3 class="course-card__title">Bachata Średniozaawansowany</h3>
+									<span class="badge badge--level">Średniozaawansowany</span>
+								</div>
+								<p class="course-card__schedule">Wt &amp; Czw 20:00–21:00</p>
+								<div class="course-card__footer">
+									<p class="course-card__instructor">Prowadzący: <strong>Maria Santos</strong></p>
+									<button class="course-card__cancel" type="button" data-stub-action="cancel-course" data-course-id="c2">Zrezygnuj</button>
+								</div>
+							</article>
+							<article class="course-card">
+								<div class="course-card__header">
+									<h3 class="course-card__title">Kizomba Intro</h3>
+									<span class="badge badge--level">Początkujący</span>
+								</div>
+								<p class="course-card__schedule">Pt 18:00–19:00</p>
+								<div class="course-card__footer">
+									<p class="course-card__instructor">Prowadzący: <strong>João Silva</strong></p>
+									<button class="course-card__cancel" type="button" data-stub-action="cancel-course" data-course-id="c3">Zrezygnuj</button>
+								</div>
+							</article>
+						</div>
 					</section>
 				</div>
 			</article>
