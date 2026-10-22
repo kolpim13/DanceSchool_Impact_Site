@@ -55,6 +55,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/facebook/posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Posts */
+        get: operations["list_posts_api_facebook_posts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/people/me": {
         parameters: {
             query?: never;
@@ -189,6 +206,17 @@ export interface components {
              */
             login_email: string;
         };
+        /** FeedRead */
+        FeedRead: {
+            /** Available */
+            available: boolean;
+            /** Items */
+            items: components["schemas"]["PostRead"][];
+            /** Last Synced At */
+            last_synced_at: string | null;
+            /** Stale */
+            stale: boolean;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -226,6 +254,27 @@ export interface components {
             phone: string | null;
             /** Photo Path */
             photo_path: string | null;
+        };
+        /** PostRead */
+        PostRead: {
+            /** Id */
+            id: string;
+            /** Permalink */
+            permalink: string;
+            /**
+             * Platform
+             * @default facebook
+             */
+            platform: string;
+            /** Preview Url */
+            preview_url: string | null;
+            /**
+             * Published At
+             * Format: date-time
+             */
+            published_at: string;
+            /** Text */
+            text: string;
         };
         /** RoleRead */
         RoleRead: {
@@ -355,6 +404,38 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    list_posts_api_facebook_posts_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
             };
         };
     };

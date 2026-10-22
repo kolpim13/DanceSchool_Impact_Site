@@ -1,0 +1,24 @@
+.feed-page { padding: 48px 16px 56px; }
+.feed-page__inner { width: min(100%, 358px); margin: 0 auto; }
+.feed-page__eyebrow, .feed-detail__date { margin: 0 0 12px; color: var(--color-text-secondary); font-size: var(--font-size-label); font-weight: var(--font-weight-bold); }
+.feed-page__title, .feed-detail__title { margin: 0; font-size: var(--font-size-heading-mobile); line-height: var(--line-height-heading-mobile); }
+.feed-page__intro { margin: 16px 0 32px; color: var(--color-text-secondary); }
+.feed-list { display: grid; gap: 20px; }
+.feed-card { overflow: hidden; background: var(--color-surface); border-radius: var(--radius-card); }
+.feed-card__image, .feed-detail__image { display: block; width: 100%; object-fit: cover; background: #f3eee8; }
+.feed-card__image { aspect-ratio: 1.5 / 1; }
+.feed-card__body { padding: 20px; }
+.feed-card__date { margin: 0 0 10px; color: var(--color-text-secondary); font-size: var(--font-size-label); font-weight: var(--font-weight-bold); }
+.feed-card__excerpt { display: -webkit-box; overflow: hidden; margin: 0; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+.feed-card__action, .feed-detail__source { display: inline-flex; margin-top: 18px; border: 0; padding: 0; background: transparent; color: var(--color-impact-orange); font-weight: var(--font-weight-bold); text-decoration: underline; text-underline-offset: 3px; }
+.feed-load-state { min-height: 22px; margin-top: 24px; color: var(--color-text-secondary); text-align: center; }
+.feed-sentinel { height: 1px; }
+.feed-detail__back { display: inline-flex; gap: 8px; align-items: center; margin: 0 0 28px; border: 0; padding: 0; background: transparent; font-weight: var(--font-weight-bold); }
+.feed-detail__image { margin-bottom: 24px; border-radius: var(--radius-card); aspect-ratio: 1.5 / 1; }
+.feed-detail__date { margin-bottom: 8px; }
+.feed-detail__text { margin: 20px 0 0; white-space: pre-wrap; }
+@media (min-width: 600px) {
+	.feed-page { padding-inline: 32px; }
+	.feed-page__inner { width: min(100%, 720px); }
+	.feed-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
