@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - Rejestracja</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/footer.css">
+		<link rel="stylesheet" href="/src/mobile/pages/registration/registration.css">
+		<script type="importmap">{"imports":{"openapi-fetch":"/vendor/openapi-fetch.js"}}</script>
+	</head>
+	<body>
+		<div data-header-host></div>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="register-page">
+				<div class="register-page__inner">
+					<form class="register-card" data-register-form aria-labelledby="register-title">
+						<h1 id="register-title" class="register-page__title">Dołącz do Impact</h1>
+						<p class="register-page__intro">Twój taneczny plan zaczyna się tutaj.</p>
+
+						<div class="field register-field">
+							<label for="register-first-name">Imię</label>
+							<input id="register-first-name" name="first_name" type="text" placeholder="Twoje imię" autocomplete="given-name" required>
+						</div>
+						<div class="field register-field">
+							<label for="register-last-name">Nazwisko</label>
+							<input id="register-last-name" name="last_name" type="text" placeholder="Twoje nazwisko" autocomplete="family-name" required>
+						</div>
+						<div class="field register-field">
+							<label for="register-email">Adres e-mail</label>
+							<input id="register-email" name="email" type="email" placeholder="twoj@email.pl" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+						</div>
+						<div class="field register-field">
+							<label for="register-password">Hasło</label>
+							<input id="register-password" name="password" type="password" placeholder="Utwórz hasło" autocomplete="new-password" minlength="12" aria-describedby="register-password-hint" required>
+						</div>
+						<div class="field register-field">
+							<label for="register-password-confirm">Powtórz hasło</label>
+							<input id="register-password-confirm" name="password_confirm" type="password" placeholder="Powtórz hasło" autocomplete="new-password" minlength="12" required>
+						</div>
+						<p id="register-password-hint" class="caption muted register-card__note">Minimum 12 znaków.</p>
+
+						<label class="consent caption register-consent">
+							<input name="terms_accepted" type="checkbox" required>
+							<span class="consent-glyph" aria-hidden="true"></span>
+							<span>Akceptuję regulamin i potwierdzam zapoznanie się z polityką prywatności. *</span>
+						</label>
+						<label class="consent caption muted register-consent">
+							<input name="marketing_consent" type="checkbox">
+							<span class="consent-glyph" aria-hidden="true"></span>
+							<span>Chcę otrzymywać wiadomości ze studia.<br>(opcjonalnie)</span>
+						</label>
+
+						<button class="button button-primary register-card__submit" type="submit" data-register-button disabled>Utwórz konto</button>
+						<noscript><p class="caption muted register-card__note">Włącz JavaScript, aby skorzystać z formularza rejestracji.</p></noscript>
+						<p id="register-status" class="register-card__status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1" hidden></p>
+						<a class="button register-card__link" href="/src/mobile/pages/login/index.html">Masz konto? Zaloguj się</a>
+						<p class="caption muted register-card__note">Możesz przeglądać stronę bez zakładania konta.</p>
+						<a class="button register-card__link" href="/">←&nbsp; Wróć do przeglądania jako gość</a>
+					</form>
+				</div>
+			</article>
+		</main>
+		<div data-footer-host></div>
+        
+		<p id="stub-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/register/register.js"></script>
+	</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Impact - Aktualności</title>
+		<link rel="stylesheet" href="/src/styles/tokens.css">
+		<link rel="stylesheet" href="/src/styles/fonts.css">
+		<link rel="stylesheet" href="/src/styles/base.css">
+		<link rel="stylesheet" href="/src/styles/components.css">
+		<link rel="stylesheet" href="/src/mobile/partials/header/header.css">
+		<link rel="stylesheet" href="/src/mobile/partials/footer/footer.css">
+		<link rel="stylesheet" href="/src/mobile/pages/feed/feed.css">
+		<script type="importmap">{"imports":{"openapi-fetch":"/vendor/openapi-fetch.js"}}</script>
+	</head>
+	<body>
+		<div data-header-host></div>
+		<div data-expanded-menu-host></div>
+		<main id="app-page">
+			<article class="feed-page">
+				<div class="feed-page__inner">
+					<section data-feed-list-view>
+						<p class="feed-page__eyebrow">Impact / Studio Tańca</p>
+						<h1 class="feed-page__title">Aktualności</h1>
+						<p class="feed-page__intro">Najnowsze wiadomości, wydarzenia i energia prosto z naszego parkietu.</p>
+						<div class="feed-list" data-feed-list aria-live="polite">
+							<p class="feed-state">Ładowanie aktualności...</p>
+						</div>
+						<div class="feed-load-state" data-feed-load-state aria-live="polite"></div>
+						<div class="feed-sentinel" data-feed-sentinel aria-hidden="true"></div>
+					</section>
+					<section class="feed-detail" data-feed-detail-view hidden>
+						<button class="feed-detail__back" type="button" data-feed-back>
+							<span aria-hidden="true">←</span> Wróć do aktualności
+						</button>
+						<div data-feed-detail></div>
+					</section>
+				</div>
+			</article>
+		</main>
+		<div data-footer-host></div>
+		<p id="feed-status" class="sr-only" aria-live="polite"></p>
+		<script type="module" src="/src/mobile/pages/feed/feed.js"></script>
+	</body>
+</html>

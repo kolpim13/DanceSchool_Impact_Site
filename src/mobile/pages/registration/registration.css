@@ -1,0 +1,17 @@
+.register-page { padding: 28px var(--space-page-mobile); }
+.register-page__inner { width: min(100%, 358px); margin: 0 auto; }
+.register-card { display: flex; flex-direction: column; gap: var(--space-stack); padding: 28px var(--space-page-mobile); margin: 0; background: var(--color-surface); border-radius: var(--radius-card); }
+.register-page__title { margin: 0; font-size: var(--font-size-heading-mobile); font-weight: var(--font-weight-bold); line-height: var(--line-height-heading-mobile); }
+.register-page__intro { margin: 0; color: var(--color-text-secondary); }
+
+.register-field { min-width: 0; }
+.register-field input { min-width: 0; }
+.register-card__note { margin: 0; }
+.register-consent { cursor: pointer; }
+
+.register-card__submit, .register-card__link { width: 100%; height: auto; min-height: 48px; padding: 14px 12px; text-align: center; white-space: normal; }
+.register-card__submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.register-card__link { background: transparent; }
+.register-card__link:hover { text-decoration: underline; }
+.register-card__status { margin: 0; padding: 12px; border: 1px solid var(--color-input-border); border-radius: var(--radius-input); font-size: var(--font-size-label); overflow-wrap: anywhere; }
+.register-card__status[hidden] { display: none; }
